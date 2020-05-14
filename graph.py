@@ -24,7 +24,16 @@ class Graph:
                     if i not in visited:
                         s.push(i)
 
-        
+    def bft(self, starting_vertex):
+        q = Queue()
+        q.enqueue(starting_vertex)
 
-    def bfs(self, starting_vertex, destination_vertex):
-        return None 
+        visited = set()
+
+        while q.size() > 0:
+            current_vert = q.dequeue()
+            if current_vert not in visited:
+                visited.add(current_vert)
+                for i in self.get_neighbors(current_vert):
+                    if i not in visited:
+                        q.enqueue(i)

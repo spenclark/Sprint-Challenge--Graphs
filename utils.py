@@ -5,7 +5,7 @@ class Queue():
         self.queue.append(value)
     def dequeue(self):
         if self.size() > 0:
-            self.queue.pop()
+            return self.queue.pop()
         else: 
             return None
     def size(self):
