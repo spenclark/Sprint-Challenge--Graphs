@@ -23,6 +23,8 @@ class Graph:
                 for i in self.get_neighbors(current_vert):
                     if i not in visited:
                         s.push(i)
+        
+        return self.vertices
 
     def bft(self, starting_vertex):
         q = Queue()
