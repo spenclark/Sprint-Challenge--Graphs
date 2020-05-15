@@ -37,3 +37,23 @@ class Graph:
                 for i in self.get_neighbors(current_vert):
                     if i not in visited:
                         q.enqueue(i)
+
+    def bfs(self, starting_vertex, destination_vertex):
+        q = Queue()
+        q.enqueue(starting_vertex)
+
+        visited = set()
+
+        while q.size > 0:
+            current_path = q.dequeue()
+            last_vertex = current_path[-1]
+            if last_vertex not in visited:
+                if last_vertex == destination_vertex:
+                    return current_path
+
+                visited.add(last_vertex)
+
+                for room_id in self.vertices[last_vertex].keys():
+                    neighbor_path = list(current_path)
+                    neighbor_path.append(room_id)
+                    q.enqueue(neighbor_path)

@@ -1,13 +1,13 @@
 from room import Room
 from player import Player
 from world import World
+from graph import Graph
 
 import random
 from ast import literal_eval
 
 # Load world
 world = World()
-
 
 # You may uncomment the smaller graphs for development and testing purposes.
 # map_file = "maps/test_line.txt"
@@ -29,7 +29,8 @@ player = Player(world.starting_room)
 # traversal_path = ['n', 'n']
 traversal_path = []
 
-
+graph = Graph()
+map_rooms = graph.dft(player.current_room)
 
 # TRAVERSAL TEST - DO NOT MODIFY
 visited_rooms = set()
