@@ -29,9 +29,57 @@ player = Player(world.starting_room)
 # traversal_path = ['n', 'n']
 traversal_path = []
 
-graph = Graph()
-map_rooms = graph.dft(player.current_room)
+#first pass pusedo
+    # set current room position
+    # if they are neighbor, add to traversal_path
+    # if they are not neighbor, use bfs to find shortest path between them
+    # if they are neighbor, add to traversal_path
 
+graph = Graph()
+world_map = graph.dft(player.current_room)
+rooms_list = [room_id for room_id in world_map.keys()]
+
+# if len(rooms_list) > 0:
+#     length_of_map = len(rooms_list)
+
+# while length_of_map > 1:
+#     current_room = rooms_list[0]
+#     next_room = rooms_list[1]
+#     neighbors_of_current = map_rooms[current_room]
+
+#     if next_room in neighbors_of_current.keys():
+#         traversal_path.append(neighbors_of_current[next_room])
+#     else:
+#         shortest_route = graph.bfs(current_room, next_room)
+#         while shortest_route > 1:
+#             neighbors_of_current = map_rooms[shortest_route[0]]
+#             next_room = shortest_route[1]
+
+#             if next_room in neighbors_of_current.keys():
+#                 traversal_path.append(neighbors_of_current[next_room])
+#             else:
+#                 traversal_path.append("?")
+#             shortest_route.pop(0)
+#         rooms_list.pop(0)
+
+#n
+while(len(rooms_list) > 1):
+    current_room = rooms_list[0]
+    next_room = rooms_list[1]
+    current_neighbors = world_map[current_room]
+    if next_room in current_neighbors.keys():
+        traversal_path.append(current_neighbors[next_room])
+    else:
+        short_path = graph.bfs(current_room,next_room)
+        while len(short_path) > 1:
+            current_neighbors = world_map[short_path[0]]
+            next_room = short_path[1]
+            if next_room in current_neighbors.keys():
+                traversal_path.append(current_neighbors[next_room])
+            else:
+                traversal_path.append('?')
+            short_path.pop(0)
+    rooms_list.pop(0)
 # TRAVERSAL TEST - DO NOT MODIFY
 visited_rooms = set()
 player.current_room = world.starting_room
