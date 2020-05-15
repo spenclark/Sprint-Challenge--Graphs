@@ -38,29 +38,31 @@ traversal_path = []
 graph = Graph()
 world_map = graph.dft(player.current_room)
 rooms_list = [room_id for room_id in world_map.keys()]
-
+#implementation 
+# set room 
+# if no traverse is necissary then add to path
+# else call bfs and find path
+# add neighbors to traversalpath 
 if len(rooms_list) > 0:
     length_of_map = len(rooms_list)
 
-while length_of_map > 1:
+while(len(rooms_list) > 1):
     current_room = rooms_list[0]
     next_room = rooms_list[1]
-    neighbors_of_current = map_rooms[current_room]
-
-    if next_room in neighbors_of_current.keys():
-        traversal_path.append(neighbors_of_current[next_room])
+    current_neighbors = world_map[current_room]
+    if next_room in current_neighbors.keys():
+        traversal_path.append(current_neighbors[next_room])
     else:
-        shortest_route = graph.bfs(current_room, next_room)
-        while shortest_route > 1:
-            neighbors_of_current = map_rooms[shortest_route[0]]
-            next_room = shortest_route[1]
-
-            if next_room in neighbors_of_current.keys():
-                traversal_path.append(neighbors_of_current[next_room])
+        short_path = graph.bfs(current_room,next_room)
+        while len(short_path) > 1:
+            current_neighbors = world_map[short_path[0]]
+            next_room = short_path[1]
+            if next_room in current_neighbors.keys():
+                traversal_path.append(current_neighbors[next_room])
             else:
-                traversal_path.append("?")
-            shortest_route.pop(0)
-        rooms_list.pop(0)
+                traversal_path.append('?')
+            short_path.pop(0)
+    rooms_list.pop(0)
 
 # TRAVERSAL TEST - DO NOT MODIFY
 visited_rooms = set()
