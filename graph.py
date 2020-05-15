@@ -11,20 +11,36 @@ class Graph:
         return self.vertices[vertex_id]
 
     def dft(self, starting_vertex):
-        s = Stack()
-        s.push(starting_vertex)
-
         visited = set()
+        stack = Stack()
+        stack.push([starting_vertex])
 
-        while s.size() > 0:
-            current_vert = s.pop()
-            if current_vert not in visited:
-                visited.add(current_vert)
-                for i in self.get_neighbors(current_vert):
-                    if i not in visited:
-                        s.push(i)
+        while stack.size() > 0:
+
+            current_node = stack.pop()
+
+            room = current_node[-1]
+
+
+            if room not in visited:
+
+                self.vertices[room.id] ={}
+
+                for possible_direction in room.get_exits():
+                    self.vertices[room.id][room.get_room_in_direction(possible_direction).id]= possible_direction
+
+                visited.add(room)
+
+                exits = room.get_exits()
+                while len(exits) > 0:
+                    direction = exits[0]
+                    neighbor_path = list(current_node)
+                    neighbor_path.append(room.get_room_in_direction(direction))
+                    stack.push(neighbor_path)
+                    exits.remove(direction)
         
         return self.vertices
+
 
     def bft(self, starting_vertex):
         q = Queue()
