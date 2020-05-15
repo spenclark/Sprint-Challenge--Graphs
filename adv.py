@@ -1,13 +1,13 @@
 from room import Room
 from player import Player
 from world import World
+from graph import Graph
 
 import random
 from ast import literal_eval
 
 # Load world
 world = World()
-
 
 # You may uncomment the smaller graphs for development and testing purposes.
 # map_file = "maps/test_line.txt"
@@ -17,7 +17,7 @@ world = World()
 map_file = "maps/main_maze.txt"
 
 # Loads the map into a dictionary
-room_graph=literal_eval(open(map_file, "r").read())
+room_graph = literal_eval(open(map_file, "r").read())
 world.load_graph(room_graph)
 
 # Print an ASCII map
@@ -29,7 +29,40 @@ player = Player(world.starting_room)
 # traversal_path = ['n', 'n']
 traversal_path = []
 
+#first pass pusedo
+    # set current room position
+    # if they are neighbor, add to traversal_path
+    # if they are not neighbor, use bfs to find shortest path between them
+    # if they are neighbor, add to traversal_path
 
+graph = Graph()
+world_map = graph.dft(player.current_room)
+rooms_list = [room_id for room_id in world_map.keys()]
+#implementation 
+# set room 
+# if no traverse is necissary then add to path
+# else call bfs and find path
+# add neighbors to traversalpath 
+if len(rooms_list) > 0:
+    length_of_map = len(rooms_list)
+
+while(len(rooms_list) > 1):
+    current_room = rooms_list[0]
+    next_room = rooms_list[1]
+    current_neighbors = world_map[current_room]
+    if next_room in current_neighbors.keys():
+        traversal_path.append(current_neighbors[next_room])
+    else:
+        short_path = graph.bfs(current_room,next_room)
+        while len(short_path) > 1:
+            current_neighbors = world_map[short_path[0]]
+            next_room = short_path[1]
+            if next_room in current_neighbors.keys():
+                traversal_path.append(current_neighbors[next_room])
+            else:
+                traversal_path.append('?')
+            short_path.pop(0)
+    rooms_list.pop(0)
 
 # TRAVERSAL TEST - DO NOT MODIFY
 visited_rooms = set()
